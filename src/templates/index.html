@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jazz Fakebook</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1
+        className="font-black uppercase text-5xl max-w-[300px] mt-16 mb-8 m-auto text-center"
+      >
+        {{nameOfBook}}
+      </h1>
+      <p className="mb-12 text-lg italic leading-tight">
+        {{descriptionOfBook}}
+      </p>
+    </header>
+    <main>
+      <ul id="song-list">
+        {{#songs}}
+        <li>
+          <a href="{{filePath}}">{{title}} - {{composer}}</a>
+        </li>
+        {{/songs}}
+      </ul>
+    </main>
+  </body>
+</html>
