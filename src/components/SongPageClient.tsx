@@ -37,6 +37,10 @@ export default function SongPageClient({
     hasVersions ? songMetadata.versions[0].version : null
   );
 
+  const abcOptions = {
+    responsive: "resize",
+  };
+
   useEffect(() => {
     if (!hasVersions) {
       setCurrentABCData("");
@@ -54,7 +58,11 @@ export default function SongPageClient({
     <div>
       {hasVersions ? (
         <>
-          <SongDisplay songMetadata={songMetadata} abcData={[currentABCData]} />
+          <SongDisplay
+            songMetadata={songMetadata}
+            abcData={[currentABCData]}
+            abcOptions={abcOptions}
+          />
           {songMetadata.versions.map((version) => (
             <button
               key={version.version}
@@ -68,24 +76,32 @@ export default function SongPageClient({
               {version.name}
             </button>
           ))}
+          <Link
+            href={`/songs/${handle}/newChart`}
+            style={{ marginBottom: "1rem", display: "block" }}
+          >
+            + Chart
+          </Link>
         </>
       ) : (
         <>
           <h1 className="font-bold font-serif text-xl">{songMetadata.title}</h1>
           <p>{songMetadata.composer}</p>
+          <Link
+            href={`/songs/${handle}/newChart/1`}
+            style={{ marginBottom: "1rem", display: "block" }}
+          >
+            + First Chart
+          </Link>
         </>
       )}
-      <Link
-        href={`/songs/${handle}/newChart`}
-        style={{ marginBottom: "1rem", display: "block" }}
-      >
-        + Chart
-      </Link>
-      <h2>
-        Song Notes
+
+      <h2 className="text-sm uppercase font-bold border-b border-gray-400 mb-8 flex justify-between">
+        <span className="block pt-2 my-2">Song Notes</span>
+
         <Link
+          className="text-xs font-bold text-white bg-gray-800 p-2 rounded my-2 block"
           href={`/songs/${handle}/edit`}
-          style={{ marginBottom: "1rem", display: "block" }}
         >
           Edit
         </Link>

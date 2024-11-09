@@ -56,7 +56,7 @@ const NewChartForm = ({
   };
 
   return (
-    <div>
+    <div className="bg-gray-100 rounded p-4 m-auto">
       <h1>Create New Chart for {metadata.title}</h1>
       <p>Composer: {metadata.composer}</p>
       <p>Description: {metadata.description}</p>

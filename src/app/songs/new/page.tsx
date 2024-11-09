@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function NewSongPage() {
   const [title, setTitle] = useState("");
@@ -29,39 +30,58 @@ export default function NewSongPage() {
   };
 
   return (
-    <main>
-      <h1>Add New Song</h1>
+    <main className="m-auto max-w-lg">
+      <h1 className="font-bold text-xl mb-8">Add New Song</h1>
       <form
         onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+        className="flex flex-col gap-4 justify-start"
       >
         <label>
-          Title:
+          <span className="block"> Title</span>
+
           <input
+            className="border w-full"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
           />
         </label>
         <label>
-          Composer:
+          <span className="block">Composer</span>
           <input
+            className="border w-full"
             value={composer}
             onChange={(e) => setComposer(e.target.value)}
           />
         </label>
         <label>
-          Genre:
-          <input value={genre} onChange={(e) => setGenre(e.target.value)} />
+          <span className="block">Genre</span>
+
+          <input
+            className="border w-full"
+            value={genre}
+            onChange={(e) => setGenre(e.target.value)}
+          />
         </label>
         <label>
-          Description:
+          <span className="block">Description</span>
           <textarea
+            className="border w-full"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
         </label>
-        <button type="submit">Add Song</button>
+        <div className="flex">
+          <button
+            type="submit"
+            className="bg-black text-white p-1.5 px-3 rounded max-w-40 uppercase font-bold text-xs"
+          >
+            Add Song
+          </button>
+          <Link href="/" className="pt-1 px-3 inline-block">
+            Cancel
+          </Link>
+        </div>
       </form>
     </main>
   );

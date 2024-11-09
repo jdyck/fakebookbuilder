@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import abcjs from "abcjs";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -8,10 +9,17 @@ interface EditAbcPageProps {
   params: Promise<{ handle: string; version: string }>;
 }
 
+interface AbcContentResponse {
+  abcContent: string;
+  title: string;
+}
+
 const EditAbcPage: React.FC<EditAbcPageProps> = ({ params }) => {
   const [handle, setHandle] = useState<string | null>(null);
   const [version, setVersion] = useState<string | null>(null);
+  const [title, setTitle] = useState<string | null>(null);
   const [abcContent, setAbcContent] = useState<string | null>(null);
+  const abcContainerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -31,8 +39,9 @@ const EditAbcPage: React.FC<EditAbcPageProps> = ({ params }) => {
           const response = await fetch(`/api/songs/${handle}/abc/${version}`);
           if (!response.ok) throw new Error("Failed to fetch ABC content");
 
-          const data = await response.text();
-          setAbcContent(data);
+          const data: AbcContentResponse = await response.json();
+          setAbcContent(data.abcContent);
+          setTitle(data.title);
         } catch (error) {
           console.error(error);
         }
@@ -41,6 +50,14 @@ const EditAbcPage: React.FC<EditAbcPageProps> = ({ params }) => {
 
     fetchAbcContent();
   }, [handle, version]);
+
+  useEffect(() => {
+    if (abcContainerRef.current && abcContent) {
+      // Clear any previous rendering and render the updated ABC content
+      abcContainerRef.current.innerHTML = "";
+      abcjs.renderAbc(abcContainerRef.current, abcContent);
+    }
+  }, [abcContent]);
 
   const handleSave = async (updatedAbc: string) => {
     if (handle && version) {
@@ -66,10 +83,10 @@ const EditAbcPage: React.FC<EditAbcPageProps> = ({ params }) => {
   return (
     <main>
       <Link href={`/songs/${handle}`}>Back</Link>
-      <h1>Edit ABC Notation for Version {version}</h1>
+      <h1>Edit chart for {title}</h1>
       <div>
-        <h2>Edit ABC Notation</h2>
         <textarea
+          className="p-1.5 border"
           value={abcContent}
           onChange={(e) => setAbcContent(e.target.value)}
           rows={15}
@@ -77,11 +94,12 @@ const EditAbcPage: React.FC<EditAbcPageProps> = ({ params }) => {
         />
         <button
           onClick={() => handleSave(abcContent)}
-          style={{ marginTop: "1rem" }}
+          className="bg-black p-3 py-1.5 uppercase text-white rounded font-bold text-xs"
         >
           Save Changes
         </button>
       </div>
+      <div ref={abcContainerRef} className="mt-4 border p-2" />
     </main>
   );
 };

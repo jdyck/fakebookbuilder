@@ -21,19 +21,29 @@ interface SongMetadata {
 interface SongDisplayProps {
   songMetadata: SongMetadata;
   abcData: string[];
+  abcOptions: object;
 }
 
-const SongDisplay: React.FC<SongDisplayProps> = ({ songMetadata, abcData }) => {
+const SongDisplay: React.FC<SongDisplayProps> = ({
+  songMetadata,
+  abcData,
+  abcOptions,
+}) => {
   useEffect(() => {
     abcData.forEach((data, index) => {
-      abcjs.renderAbc(`notation-${index}`, data);
+      abcjs.renderAbc(`notation-${index}`, data, abcOptions);
     });
-  }, [abcData]);
+  }, [abcData, abcOptions]);
 
   return (
     <div className="m-auto">
       {songMetadata.versions.map((version, index) => (
-        <div key={version.version} className="">
+        <div key={version.version} className=" max-w-full w-[700px]">
+          <Link
+            href={`/songs/${songMetadata.handle}/editChart/${version.version}`}
+          >
+            Edit
+          </Link>
           <div id={`notation-${index}`} className=""></div>
         </div>
       ))}

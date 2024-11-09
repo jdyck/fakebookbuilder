@@ -44,39 +44,41 @@ export default function SongForm({
   };
 
   return (
-    <form
-      onSubmit={handleFormSubmit}
-      style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-    >
-      <label>
-        Version Name:
+    <form onSubmit={handleFormSubmit} className="my-8">
+      <label className="mb-4 block">
+        <span>Version Name</span>
         <input
+          className="border p-1.5 w-full"
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
         />
       </label>
-      <label>
-        Version Number:
+      <label className="mb-4 block">
+        Version Number
         <input
+          className="border p-1.5 w-full"
           type="text"
           value={version}
           onChange={(e) => setVersion(e.target.value)}
           required
         />
       </label>
-      <label>
-        ABC Notation:
+      <label className="mb-4 block">
+        ABC Notation
         <textarea
-          className="p-1 border"
+          className="p-1.5 border"
           value={abcContent}
           onChange={(e) => setAbcContent(e.target.value)}
           rows={10}
           style={{ width: "100%", fontFamily: "monospace" }}
         />
       </label>
-      <button type="submit">
+      <button
+        type="submit"
+        className="text-xs font-bold uppercase bg-black rounded text-white p-3 py-1.5"
+      >
         {initialData ? "Update Version" : "Add Version"}
       </button>
       <div ref={abcContainerRef} />

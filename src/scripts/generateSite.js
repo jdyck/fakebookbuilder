@@ -11,7 +11,7 @@ console.log(
 );
 
 // Use paths from .env.local
-const SONGS_DIR = path.resolve(process.env.SONGS_SRC_PATH_SCRIPT + "/songs");
+const SONGS_DIR = path.resolve(process.env.SONGS_SRC_PATH + "/songs");
 const OUTPUT_DIR = path.resolve(process.env.OUTPUT_PATH);
 
 // Load templates

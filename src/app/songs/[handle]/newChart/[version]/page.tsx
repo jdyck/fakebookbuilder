@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import SongForm from "@/components/SongForm";
+import Link from "next/link";
 
 // Interface defining the structure of data needed for a new song version
 interface NewVersionData {
@@ -87,11 +88,15 @@ export default function NewVersionPage({
   // Rendering the New Version Page UI
   return (
     <main>
-      <h1>Add New Version for {title}</h1>
+      <Link href={`/songs/${handle}`}>Back</Link>
+      <h1 className="font-bold text-xl">
+        Add a new chart for
+        <span className="block text-2xl font-bold">{title}</span>
+      </h1>
       <SongForm
-        title={title} // Passing the song title to the form
-        handle={handle} // Passing the song handle to the form
-        onSubmit={handleNewVersionSubmit} // Passing the submit handler to the form
+        title={title}
+        handle={handle}
+        onSubmit={handleNewVersionSubmit}
       />
     </main>
   );
